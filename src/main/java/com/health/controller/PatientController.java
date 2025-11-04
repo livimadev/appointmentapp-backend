@@ -67,6 +67,7 @@ public class PatientController {
         //Patient obj =  service.update(modelMapper.map(dto, Patient.class), id);
         //return ResponseEntity.ok(modelMapper.map(obj, PatientDTO.class));
 
+        //dto.setIdPatient(id);
         Patient obj =  service.update(convertToEntity(dto), id);
         return ResponseEntity.ok(convertToDto(obj));
     }

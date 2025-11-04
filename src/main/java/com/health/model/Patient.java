@@ -16,7 +16,7 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idPatient;
+    private Integer idPatient;
 
     @Column(nullable = false, length = 70)//, name="nombres")
     private String firstName;

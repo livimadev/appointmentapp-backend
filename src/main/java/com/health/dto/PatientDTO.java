@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatientDTO {
-    private int idPatient;
+    private Integer idPatient;
 
     @NotNull
     //@NotBlank

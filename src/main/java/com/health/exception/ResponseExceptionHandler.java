@@ -1,19 +1,20 @@
 package com.health.exception;
 
 import org.springframework.beans.factory.parsing.Problem;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice // Interceptar excepcion
-public class ResponseExceptionHandler {
+public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CustomErrorRecord> handleDefaultExceptions(Exception ex, WebRequest request){
         CustomErrorRecord err = new CustomErrorRecord(
@@ -38,6 +39,17 @@ public class ResponseExceptionHandler {
                 LocalDateTime.now(), ex.getMessage(), request.getDescription(false)
         );
         return new ResponseEntity<>(err, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        String msg = ex.getBindingResult().getFieldErrors().stream()
+                .map(err -> err.getField().concat(":").concat(err.getDefaultMessage()))
+                .collect(Collectors.joining(","));
+
+        CustomErrorRecord err = new CustomErrorRecord(LocalDateTime.now(), msg, request.getDescription(false));
+
+        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
     }
 
     // Desde Spring Boot 3+

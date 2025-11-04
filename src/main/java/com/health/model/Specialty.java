@@ -15,7 +15,7 @@ public class Specialty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int idSpecialty;
+    private Integer idSpecialty;
 
     @Column(nullable = false, length = 50)
     private String name;

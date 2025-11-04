@@ -15,7 +15,7 @@ public class Medic {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idMedic;
+    private Integer idMedic;
 
     @ManyToOne
     @JoinColumn(name ="id_specialty", nullable = false,

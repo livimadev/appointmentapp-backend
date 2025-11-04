@@ -4,6 +4,7 @@ import com.health.exception.ModelNotFoundException;
 import com.health.repository.IGenericRepository;
 import com.health.service.IGenericService;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 public abstract class GenericService<T, ID> implements IGenericService<T, ID> {
@@ -16,8 +17,17 @@ public abstract class GenericService<T, ID> implements IGenericService<T, ID> {
 
     @Override
     public T update(T t, ID id) throws Exception {
-        // VALIDACION DE ID MAS ADELANTE
         getRepo().findById(id).orElseThrow(()->new ModelNotFoundException("ID NOT FOUND: " + id));
+        // VALIDACION DE ID
+        //t.setIdPatient(id); Java Reflection
+        Class<?> clazz = t.getClass();
+        String className = clazz.getSimpleName();
+
+        //setIdXYZ
+        String methodName = "setId" + className;
+        Method setIdMethod = clazz.getMethod(methodName, id.getClass());
+        setIdMethod.invoke(t, id);
+
         return getRepo().save(t);
     }
 
