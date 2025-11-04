@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MedicController {
     private final IMedicService service;
-    @Qualifier("defaultMapper")
+    @Qualifier("medicMapper")
     private final ModelMapper modelMapper;
 
     @GetMapping
