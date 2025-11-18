@@ -1,10 +1,14 @@
 package com.health.service;
 
 import com.health.model.Patient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface IPatientService extends IGenericService<Patient, Integer> {
+    Page<Patient> listPage(Pageable pageable);
+
     //Patient validAndSave(Patient patient);
     /*Patient save(Patient patient) throws  Exception;
     Patient update(Patient patient, Integer id) throws  Exception;

@@ -1,7 +1,7 @@
 package com.health.security;
 
-import com.mitocode.model.User;
-import com.mitocode.repo.IUserRepo;
+import com.health.model.User;
+import com.health.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
 
-    private final IUserRepo repo;
+    private final IUserRepository repo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
