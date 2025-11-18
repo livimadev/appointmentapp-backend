@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,6 +23,8 @@ public class MedicController {
     @Qualifier("medicMapper")
     private final ModelMapper modelMapper;
 
+    // @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("@authorizeLogic.hasAccess('findAll')")
     @GetMapping
     public ResponseEntity<List<MedicDTO>> findAll() throws Exception{
         List<MedicDTO> list = service.findAll().stream().map(this::convertToDto).toList(); // e -> convertToDto(e)
